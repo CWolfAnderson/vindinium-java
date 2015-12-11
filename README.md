@@ -1,4 +1,3 @@
-
 # vindinium-client
 
 ![Build status](https://travis-ci.org/bstempi/vindinium-client.svg)
@@ -107,4 +106,4 @@ If someone *really* wants to give their bot some play time, then it might be nic
 While it is absolutely an improvement over the `GameState`, it still leaves something to be desired.  For now, the `AdvancedGameState` is to be considered unstable since it will be undergoing some improvements.
 
 #### Testing
-Testing the decisioners is hard.  Its tedious to go through and set up game scenarios to test each possible outcome of each decisioner.  Right now, the testing is not a good example of how a project should be tested.:
+Testing the decisioners is hard.  Its tedious to go through and set up game scenarios to test each possible outcome of each decisioner.  Right now, the testing is not a good example of how a project should be tested.
