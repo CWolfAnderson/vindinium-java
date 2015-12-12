@@ -50,7 +50,7 @@ public class EnRouteLootingDecisioner implements Decision<AdvancedMurderBot.Game
                 
                 // check if my health is greater than both enemies
                 for (GameState.Hero enemy : enemies) {
-                  if (context.getGameState().getMe().getLife() < enemy.getLife()) {
+                  if ((context.getGameState().getMe().getLife() + 20) < enemy.getLife()) {
                     myHealthIsGreater = false;
                     break;
                   } else {

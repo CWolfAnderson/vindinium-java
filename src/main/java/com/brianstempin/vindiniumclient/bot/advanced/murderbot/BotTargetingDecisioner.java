@@ -33,7 +33,7 @@ public class BotTargetingDecisioner implements Decision<AdvancedMurderBot.GameCo
         logger.info("Deciding which bot to target");
         GameState.Hero me = context.getGameState().getMe();
 
-        // Are there a crashed bot with mines we can take advantage of?
+        // Is there a crashed bot with mines we can take advantage of?
         for(Mine currentMine : context.getGameState().getMines().values()) {
             if(currentMine.getOwner() != null && currentMine.getOwner().isCrashed()) {
 

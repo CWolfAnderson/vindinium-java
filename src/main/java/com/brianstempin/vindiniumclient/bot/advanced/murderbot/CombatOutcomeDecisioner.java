@@ -40,7 +40,9 @@ public class CombatOutcomeDecisioner implements Decision<AdvancedMurderBot.GameC
         }
 
         // If we have more health than them or they only can take one more hit
-        if(opponent.getLife() <= 20 || me.getLife() >= 30) {
+        // XXX changed 30 to 49
+        // if(opponent.getLife() <= 20 || me.getLife() > 49) {        
+        if (opponent.getLife() < me.getLife()) {
             logger.info("Bot will most likely win the current battle.");
             return winningDecisioner.makeDecision(context);
         }  else {
