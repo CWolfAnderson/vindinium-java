@@ -63,6 +63,7 @@ public class BotTargetingDecisioner implements Decision<AdvancedMurderBot.GameCo
         // Ok, crashed bots.  How about bots that aren't squatting?
         GameState.Hero closestTarget = null;
         AdvancedMurderBot.DijkstraResult closestTargetDijkstraResult = null;
+        
         for(GameState.Hero currentHero : heroesWithMines) {
             AdvancedMurderBot.DijkstraResult currentDijkstraResult = context
                     .getDijkstraResultMap()
@@ -78,7 +79,8 @@ public class BotTargetingDecisioner implements Decision<AdvancedMurderBot.GameCo
 
             // We don't want to target other bots of our type
             // TODO We probably shouldn't hardcode this name
-            if(currentHero.getName().equals("Assassin Bot"))
+            // XXX changed name
+            if(currentHero.getName().equals(me.getName()))
                 continue;
 
             // Are they on their spawn?

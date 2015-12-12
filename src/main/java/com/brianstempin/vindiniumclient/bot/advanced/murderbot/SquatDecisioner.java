@@ -23,6 +23,7 @@ public class SquatDecisioner implements Decision<AdvancedMurderBot.GameContext, 
 
     @Override
     public BotMove makeDecision(AdvancedMurderBot.GameContext context) {
+
         GameState.Hero me = context.getGameState().getMe();
         Map<GameState.Position, AdvancedMurderBot.DijkstraResult> dijkstraResultMap = context.getDijkstraResultMap();
 
@@ -44,7 +45,11 @@ public class SquatDecisioner implements Decision<AdvancedMurderBot.GameContext, 
         }
 
         // Do we need to move to get there?
-        if(null == nearestPubDijkstraResult) {
+        // TODO check if you have the most money, then just squat
+        // gameState.getGame().getHeroes()
+        // List<GameState.Hero> enemies = GameState.getGame().getHeroes();
+        
+        if(nearestPubDijkstraResult == null) {
             return BotMove.STAY;
         } else if(nearestPubDijkstraResult.getDistance() > 1) {
             AdvancedMurderBot.DijkstraResult currentResult = nearestPubDijkstraResult;

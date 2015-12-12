@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * Decides if we should take some mines on the way to whatever it was we were doing.
@@ -36,11 +37,28 @@ public class EnRouteLootingDecisioner implements Decision<AdvancedMurderBot.Game
         // Are we next to a mine that isn't ours?
         for(Vertex currentVertex : boardGraph.get(myPosition).getAdjacentVertices()) {
             Mine mine = context.getGameState().getMines().get(currentVertex.getPosition());
+            // XXX added && context.getGameState().getMe().getLife() > 35
+            // if mine exists && (it has no owner || it's owner is not us) && myHealth > 35
             if(mine != null && (mine.getOwner() == null
-                    || mine.getOwner().getId() != context.getGameState().getMe().getId())) {
+                    || mine.getOwner().getId() != context.getGameState().getMe().getId()) && context.getGameState().getMe().getLife() > 35) {
 
                 // Is it safe to take?
-                if(BotUtils.getHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 1).size() > 0) {
+                // XXX added && 
+                List<GameState.Hero> enemies = BotUtils.getHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 1);
+                
+                boolean myHealthIsGreater = false;
+                
+                // check if my health is greater than both enemies
+                for (GameState.Hero enemy : enemies) {
+                  if (context.getGameState().getMe().getLife() < enemy.getLife()) {
+                    myHealthIsGreater = false;
+                    break;
+                  } else {
+                    myHealthIsGreater = true;
+                  }
+                }                
+                
+                if(enemies.size() > 0 && !myHealthIsGreater) {
                     logger.info("Mine found, but another hero is too close.");
                     return noGoodMineDecisioner.makeDecision(context);
                 }
