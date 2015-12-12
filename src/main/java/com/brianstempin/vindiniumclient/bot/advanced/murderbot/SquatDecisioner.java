@@ -4,10 +4,13 @@ import com.brianstempin.vindiniumclient.bot.BotMove;
 import com.brianstempin.vindiniumclient.bot.BotUtils;
 import com.brianstempin.vindiniumclient.bot.advanced.Pub;
 import com.brianstempin.vindiniumclient.dto.GameState;
+import com.brianstempin.vindiniumclient.dto.GameState.Hero;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * Decides if we should be lame and squat.  Also known as, "turtling."
@@ -45,13 +48,25 @@ public class SquatDecisioner implements Decision<AdvancedMurderBot.GameContext, 
         }
 
         // Do we need to move to get there?
-        // TODO check if you have the most money, then just squat
+        // XXX check if you have the most money, then just squat
         // gameState.getGame().getHeroes()
-        // List<GameState.Hero> enemies = GameState.getGame().getHeroes();
+//        List<GameState.Hero> enemies = context.getGameState().getHeroes();
+
+        List<GameState.Hero> enemies = (List<GameState.Hero>) context.getGameState().getHeroesById().values(); 
         
-        if(nearestPubDijkstraResult == null) {
+        boolean imRichest = false;
+        for (GameState.Hero enemy : enemies) {
+          if (enemy.getGold() > me.getGold() && enemy.getId() != me.getId()) {
+            imRichest = false;
+            break;
+          } else {
+            imRichest = true;
+          }
+        }
+        
+        if(nearestPubDijkstraResult == null && imRichest) {
             return BotMove.STAY;
-        } else if(nearestPubDijkstraResult.getDistance() > 1) {
+        } else if(nearestPubDijkstraResult.getDistance() > 1 && imRichest) {
             AdvancedMurderBot.DijkstraResult currentResult = nearestPubDijkstraResult;
             GameState.Position currentPosition = nearestPub.getPosition();
 
